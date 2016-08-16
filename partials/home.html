@@ -1,0 +1,126 @@
+<div ng-app='clubCalendar' ng-controller="main-controller as ctrl">
+	
+	<div>
+		<script type="text/ng-template" id="myModalContent.html">
+			<div class="modal-header" style="color:black;">
+				<h3 ng-click="ok()" class="modal-title">{{homeTeam}} vs {{awayTeam}}</h3>				
+			</div>
+			<div class="modal-body" style="color:black;">
+				<p>{{date}}</p>
+				<p>Matchday: {{matchday}}</p>
+				<div ng-hide="odds == null">
+					<h4>Odds</h4>
+					<p>{{homeTeam}} : <strong>{{odds.homeWin}}</strong></p>
+					<p>Draw : <strong>{{odds.draw}}</strong></p>
+					<p>{{awayTeam}} : <strong>{{odds.awayWin}}</strong></p>
+				</div>				
+			
+				<div type="button" class="btn btn-primary" style="display:block; margin:auto;" ng-click="showLeagueTable=!showLeagueTable">Get League Table</div>
+				<div ng-hide="!showLeagueTable">
+						<h3>{{leagueCaption}} : Matchday {{tableMatchday}}</h3>
+						<div class="container league-table">
+						<table class="table table-bordered">
+						  <thead>
+							<tr>
+								<th class="col-xs-2"></th>
+								<th class="col-xs-2">Pos</th>
+								<th class="col-xs-2">Name</th>
+								<th class="col-xs-2">GP</th>
+								<th class="col-xs-2">Pts</th>
+							</tr>
+						  </thead>
+						  <tbody>
+						  <tr ng-repeat="team in standing">							
+							<td ng-if="$odd" style="background-color:#f1f1f1">
+							<img class="team-logo" onError="this.onerror=null;this.src='/css/No_image.png';" src="{{team.crestURI}}"></img></td>
+							<td ng-if="$even" >
+							<img class="team-logo" onError="this.onerror=null;this.src='/css/No_image.png';" src="{{team.crestURI}}"></img></td>							
+							<td ng-if="$odd" style="background-color:#f1f1f1">
+							{{ team.position }}</td>
+							<td ng-if="$even" >
+							{{ team.position }}</td>							
+							<td ng-if="$odd"  style="background-color:#f1f1f1">
+							{{ team.teamName }}</td>
+							<td ng-if="$even" >
+							{{ team.teamName }}</td>							
+							<td ng-if="$odd"  style="background-color:#f1f1f1">
+							{{ team.playedGames }}</td>
+							<td ng-if="$even" >
+							{{ team.playedGames }}</td>							
+							<td ng-if="$odd" style="background-color:#f1f1f1">
+							{{ team.points }}</td>
+							<td ng-if="$even">
+							{{ team.points }}</td>							
+						  </tr>
+						  </tbody>
+						  </table>
+						</div>
+				</div>
+			</div>
+			<div class="modal-footer" style="color:black;">
+				<p ng-hide="result.goalsAwayTeam == null">{{homeTeam}} : <strong>{{result.goalsHomeTeam}}</strong>, {{awayTeam}} : <strong>{{result.goalsAwayTeam}}</strong></p>
+				<button class="btn btn-primary" type="button" ng-click="ok()">Alright</button>
+			</div>
+		</script>
+	</div>
+	
+	
+	<div class="container my-teams">
+		<div class="row">
+			<div class="col-md-4 col-xs-12">
+			</div>
+			<div class="col-md-8 col-xs-12">
+				<div style="font-family:'Raleway'; padding-bottom:5px;">My Teams</div>	
+				<div class="btn-group-horizontal">		
+				<button type="button" class="btn btn-primary my-team-button" ng-click="removeTeam(team)"
+					style="background-color:{{team.color}};"
+					ng-repeat="team in selectedTeams" ng-mouseenter="hover=true" ng-mouseleave="hover=false">
+					<i ng-class="{'glyphicon glyphicon-remove':hover}"></i><img class="team-logo" onError="this.onerror=null;this.src='/css/No_image.png';" src="{{team.logoRef}}"></img>{{team.name}}</button>
+				</div>	
+			</div>
+		</div>
+	</div>
+			
+	<div class="container">
+		<div class="row">
+			<div class="col-md-4 col-xs-12 leagues-teams">
+				<div class="container">
+					<div class="row">
+						<div class="btn-group-vertical col-md-6 col-xs-6 league-team-header" ng-hide="toggleLeaguesAndTeams">
+							<button type="button" class="btn btn-default" ng-click="toggleLeaguesAndTeams = !toggleLeaguesAndTeams">Leagues</button>
+						</div>
+						<div class="btn-group-vertical col-md-12 col-xs-12 league-team-header" ng-hide="!toggleLeaguesAndTeams">
+							<button type="button" class="btn btn-default " ng-click="toggleLeaguesAndTeams = !toggleLeaguesAndTeams" >Leagues</button>
+						</div>
+						<div class="btn-group-vertical col-md-6 col-xs-6 league-team-header" ng-hide="toggleLeaguesAndTeams">
+							<button type="button" class="btn btn-default" ng-click="toggleLeaguesAndTeams = !toggleLeaguesAndTeams">{{selectedLeague}}</button>
+						</div>							
+						<div class="container">
+							<div class="row">
+								<div class="btn-group-vertical col-md-6 col-xs-6" ng-hide="toggleLeaguesAndTeams">					
+									<button type="button" class="btn btn-primary league-button" ng-click="getTeamsFromLeagueId(league)" ng-repeat="league in leagues">
+										<span class="button-text">{{league.caption}}</span>
+									</button>
+								</div>		
+								<div class="btn-group-vertical col-md-6 col-xs-6 team-list" ng-hide="toggleLeaguesAndTeams">										
+									<button type="button" class="btn btn-primary team-button" ng-click="getFixturesFromTeam(team)" ng-repeat="team in teams">
+										<img class="team-logo" onError="this.onerror=null;this.src='/css/No_image.png';" src="{{team.logoRef}}"></img>
+										<span>{{team.name}}</span>
+									</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>					
+			</div>
+			
+			<div class="calendar col-md-8 col-xs-12"
+				ui-calendar="uiConfig.calendar"
+				calendar="theCalendar"
+				ng-model="eventSources">
+			</div>
+		</div>
+	</div>
+	
+	
+</div>

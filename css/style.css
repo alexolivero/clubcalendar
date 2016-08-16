@@ -1,0 +1,121 @@
+body{
+	color:white;
+}
+
+@media screen and (min-width: 771px) {
+    body {
+       background-image: url("desktop.jpg");
+       background-size: cover;
+       background-repeat: no-repeat;
+       background-attachment: fixed;
+       background-position: center;
+    }
+}
+    
+@media screen and (max-width: 770px) {
+    body {
+       background-image:url("mobile.jpg");
+       background-size: cover;
+       background-repeat: no-repeat;
+       background-position: center;
+    }
+}
+
+.fc-toolbar{
+	margin-bottom:5px;
+}
+
+.fc-toolbar h2 {
+    font-size: x-large;
+}
+
+.fc-unthemed .fc-today {
+    background-color: rgba(0,0,255,0.2);
+}
+
+.jumbotron {
+    padding: 0.5em 0.6em;
+    background-color: #222;
+    color: whitesmoke;
+    h1 {
+        font-size: 2em;
+    }
+    
+}
+
+footer {
+    width:100%;
+    min-height:18px; 
+    text-align: center;
+    font-size: 80%;
+    color: whitesmoke;   
+    background-color: #222;
+	margin-top:16px;
+	bottom:0;
+	position:fixed;
+}
+
+.container{
+	margin: auto;
+	width:100%;
+	padding-left: 12px;
+    padding-right: 12px;
+	max-width:1700px;
+}
+
+.btn-primary {
+    border-color: white;
+	background-color:rgba(0,0,255,0.3);
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+	font-size: 90%;
+}
+
+h4{
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	overflow: hidden;
+}
+
+
+h2, .h2 {
+    font-size: 31px;
+}
+
+.calendar{
+	color:white;
+	padding-bottom:40px;
+}
+
+.league-team-header{
+	padding-bottom:10px;
+}
+
+.leagues-teams{
+	padding-bottom:10px;
+}
+
+.team-logo{
+	max-height:25px;
+	max-width:25px;
+	padding-right: 4px;
+}
+
+.league-table {
+   font-size:80%;
+   overflow-x:auto;
+}
+
+.team-list{
+	max-height:518px;
+	overflow-y: auto;
+}
+
+.my-team-button{
+	margin-right:5px;
+}
+
+.my-teams{
+	padding-bottom:10px;
+}
